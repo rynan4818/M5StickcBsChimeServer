@@ -1,4 +1,4 @@
-# M5StickcBsChimeServer
+# M5StickcChimeServer
 
 # 必要ライブラリ
 [arduinoWebSockets](https://github.com/Links2004/arduinoWebSockets)
