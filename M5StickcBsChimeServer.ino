@@ -1,7 +1,6 @@
 #include <M5StickC.h>
 #include <WiFi.h>
 #include <WebSocketsServer.h>
-#include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
 #include <ESPmDNS.h>
 #include <WiFiUdp.h>
@@ -11,14 +10,9 @@
 // WiFi Setting
 const char *ssid = "WiFi-AP-SSID";
 const char *password = "WiFi-AP-PASSWORD";
-const IPAddress ip(192, 168, 1, 2);         //M5StickC BS Chime Server IP Address
-const IPAddress subnet(255, 255, 255, 0);   //My home subnet mask
-const IPAddress gateway(192,168, 1, 1);     //My home router
-const IPAddress DNS(192, 168, 1, 1);        //My home router
-const int chimePin = 33;                    //Chime A Contact Pin
+const int chimePin = 33; //Chime A Contact Pin
+const char *server_name = "chime-server";
 
-// WebServer
-AsyncWebServer server(80); // 80 port
 // Websocket Server
 WebSocketsServer webSocket = WebSocketsServer(81); // 81 port
 
@@ -80,7 +74,6 @@ void setup() {
 
   // WiFi Setup
   WiFi.mode(WIFI_STA);
-  WiFi.config(ip, gateway, subnet, DNS);
   delay(100);
   WiFi.begin(ssid, password);
   Serial.print("WiFi Connected...");
@@ -95,7 +88,7 @@ void setup() {
   // ArduinoOTA.setPort(3232);
 
   // Hostname defaults to esp3232-[MAC]
-  // ArduinoOTA.setHostname("myesp32");
+  ArduinoOTA.setHostname(server_name);
 
   // No authentication by default
   // ArduinoOTA.setPassword("admin");
@@ -131,19 +124,6 @@ void setup() {
     });
 
   ArduinoOTA.begin();
-
-  // ROOT HTML Response
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(SPIFFS, "/index.html");
-  });
-  
-  // style.css Response
-  server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(SPIFFS, "/style.css", "text/css");
-  });
-
-  // WebServer Start
-  server.begin();
 
   // WebSocket server Start
   webSocket.begin();
