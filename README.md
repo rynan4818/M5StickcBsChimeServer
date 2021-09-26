@@ -1,5 +1,11 @@
 # M5StickcChimeServer
 
+[M5StickC](https://www.switch-science.com/catalog/6350/)でインターホンのA接点を監視してチャイムが鳴ったら、Websocket接続しているクライアントに通知するサーバ。
+
+[参考動画](https://twitter.com/rynan4818/status/1441699888463421441)
+
+PCでチャイムを鳴らすクライアント [ChimeSound](https://github.com/rynan4818/ChimeSound)
+
 # 必要ライブラリ
 [arduinoWebSockets](https://github.com/Links2004/arduinoWebSockets)
 
